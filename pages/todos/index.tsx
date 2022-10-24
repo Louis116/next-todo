@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import PageContainer from "../../components/PageContainer";
 import TodoCard from "../../components/TodoCard";
 import { TodoTask } from "../../components/TodoCard/type";
+import CreateNewTaskButton from "../../components/CreateNewTaskButton";
 let _todos: TodoTask[] = [
   {
     id: "1",
@@ -51,34 +52,48 @@ function TodoMain() {
   };
 
   const handleUpdateTask = (task: TodoTask) => {
-    let existingtodos:TodoTask[] = [...todos];
-    const foundIndex = existingtodos.findIndex((e)=>{
-      return e.id === task.id
-    })
-    const foundData = existingtodos[foundIndex]
-    let newTodo:TodoTask = {
+    let existingtodos: TodoTask[] = [...todos];
+    const foundIndex = existingtodos.findIndex((e) => {
+      return e.id === task.id;
+    });
+    const foundData = existingtodos[foundIndex];
+    let newTodo: TodoTask = {
       ...foundData,
-      name:"Kwan"
-    }
-    existingtodos[foundIndex]=newTodo
-    setTodos(existingtodos)
+      name: "Kwan",
+    };
+    existingtodos[foundIndex] = newTodo;
+    setTodos(existingtodos);
   };
 
   const handleDeleteTask = (task: TodoTask) => {
-    let existingtodos:TodoTask[] = [...todos];
-    const foundIndex = existingtodos.findIndex((e)=>{
-      return e.id === task.id
-
-    })
-    existingtodos.splice(foundIndex,1)
-    setTodos(existingtodos)
+    let existingtodos: TodoTask[] = [...todos];
+    const foundIndex = existingtodos.findIndex((e) => {
+      return e.id === task.id;
+    });
+    existingtodos.splice(foundIndex, 1);
+    setTodos(existingtodos);
   };
+
+  
 
   return (
     <PageContainer title="Active TodoList" style={{ rowGap: "10px" }}>
-      <button onClick={() => handleCreateTask()}>handleCreateTask</button>
-      <button onClick={() => handleEmptyTodos()}>handleEmptyTodos</button>
-      <button onClick={() => handleInitTodos()}>handleInitTodos</button>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          backgroundColor: "lightblue",
+          columnGap: "10px",
+          width: "100%",
+        }}
+      >
+        <Button variant="contained"onClick={() => handleCreateTask()}>CreateTask</Button>
+        <Button variant="contained"onClick={() => handleEmptyTodos()}>EmptyTodos</Button>
+        <Button variant="contained"onClick={() => handleInitTodos()}>InitTodos</Button>
+      </div>
+      <CreateNewTaskButton/>
+
       {/* <div
         style={{
           display: "flex",
@@ -116,7 +131,7 @@ function TodoMain() {
               }}
               onDelete={async (task) => {
                 console.log("onDelete", task);
-                handleDeleteTask(task)
+                handleDeleteTask(task);
               }}
             />
           );
