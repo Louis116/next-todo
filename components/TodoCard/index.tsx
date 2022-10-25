@@ -16,6 +16,7 @@ function TodoCard(props: TodoCardProps) {
           backgroundColor: "lightyellow",
           columnGap: "24px",
           alignItems:"center",
+          
         }}
       >
         <div
@@ -25,9 +26,9 @@ function TodoCard(props: TodoCardProps) {
             backgroundColor: "yellow",
           }}
         >
-          <Typography variant="h1">{todoTask.name}</Typography>
-          <Typography variant="h4">
-            {todoTask.dueDate.toDateString()}
+          <Typography variant="h3">{todoTask.name}</Typography>
+          <Typography variant="h5">
+            {todoTask.dueDate.toISOString()}
           </Typography>
         </div>
         <Button variant="contained" color="primary" style={{maxHeight:"50px"}} onClick={()=>onComplete(todoTask)}>

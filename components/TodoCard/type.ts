@@ -1,7 +1,9 @@
+import { DateTime } from "../../assets/types/frontend.type"
+
 export interface TodoTask{
     id:string
     name: string
-    dueDate: Date
+    dueDate: Date 
     status: "abc" | "ced"
     createDate: Date
     updateDate: Date

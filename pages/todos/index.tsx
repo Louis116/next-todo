@@ -1,44 +1,41 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Button from "@mui/material/Button";
 import PageContainer from "../../components/PageContainer";
 import TodoCard from "../../components/TodoCard";
 import { TodoTask } from "../../components/TodoCard/type";
-import CreateNewTaskButton from "../../components/CreateNewTaskButton";
+import CreateNewTodo from "./createnewtodo";
+import CreateTodoForm from "../../components/CreateTodoForm";
+import DeleteTaskForm from "../../components/DeleteTodoForm";
+import FilterTaskForm from "../../components/FilterTodoForm";
+
 let _todos: TodoTask[] = [
   {
     id: "1",
     name: "hello task1",
-    dueDate: new Date(),
+    dueDate: new Date("2022-10-25"),
     status: "abc",
-    createDate: new Date(),
-    updateDate: new Date(),
+    createDate: new Date("2022-10-20"),
+    updateDate: new Date("2022-10-20"),
   },
   {
     id: "2",
     name: "hello task2",
-    dueDate: new Date(),
+    dueDate: new Date("2022-10-26"),
     status: "ced",
-    createDate: new Date(),
-    updateDate: new Date(),
+    createDate: new Date("2022-10-21"),
+    updateDate: new Date("2022-10-21"),
   },
 ];
 
 function TodoMain() {
-  // [a,b,c,d]
   const [datas, setDatas] = useState<string[]>(["a", "b", "c", "d"]);
   const [todos, setTodos] = useState<TodoTask[]>([..._todos]);
+  const [filter, setFilter] = useState<string | null>(null);
 
-  const handleCreateTask = () => {
-    console.log("handleCreateTask");
+  const handleCreateTask = (task: TodoTask) => {
+    console.log("handleCreateTask", task);
     let newTodos = [...todos];
-    newTodos.push({
-      id: "3",
-      name: "newtask3",
-      dueDate: new Date(),
-      status: "abc",
-      createDate: new Date(),
-      updateDate: new Date(),
-    });
+    newTodos.push(task);
     setTodos(newTodos);
   };
 
@@ -74,7 +71,19 @@ function TodoMain() {
     setTodos(existingtodos);
   };
 
-  
+  const handleDeleteByTaskName = (taskName: string) => {
+    let result = todos.filter((deleteTask) => deleteTask.name !== taskName);
+    setTodos(result);
+  };
+
+  const handleFilterByTaskName = (taskName: string) => {
+    // let result = todos.filter(filterTask => filterTask.name.includes(taskName))
+    setFilter(taskName);
+  };
+
+  const handleResetFilter = () => {
+    setFilter(null);
+  };
 
   return (
     <PageContainer title="Active TodoList" style={{ rowGap: "10px" }}>
@@ -88,11 +97,16 @@ function TodoMain() {
           width: "100%",
         }}
       >
-        <Button variant="contained"onClick={() => handleCreateTask()}>CreateTask</Button>
-        <Button variant="contained"onClick={() => handleEmptyTodos()}>EmptyTodos</Button>
-        <Button variant="contained"onClick={() => handleInitTodos()}>InitTodos</Button>
+        <Button variant="contained" type="submit">
+          CreateTask
+        </Button>
+        <Button variant="contained" onClick={() => handleEmptyTodos()}>
+          EmptyTodos
+        </Button>
+        <Button variant="contained" onClick={() => handleInitTodos()}>
+          InitTodos
+        </Button>
       </div>
-      <CreateNewTaskButton/>
 
       {/* <div
         style={{
@@ -112,13 +126,37 @@ function TodoMain() {
           display: "flex",
           flexDirection: "column",
           rowGap: "16px",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
+        <CreateTodoForm
+          onCreateTodoTask={async function (task: TodoTask): Promise<void> {
+            console.log("onCreateTodoTask", task);
+            handleCreateTask(task);
+          }}
+        />
+        <DeleteTaskForm
+          onDeleteTodoTaskName={async function (task: string): Promise<void> {
+            handleDeleteByTaskName(task);
+            console.log(task);
+          }}
+        />
+        <FilterTaskForm
+          onFilterTodoTaskName={async function (
+            taskName: string
+          ): Promise<void> {
+            handleFilterByTaskName(taskName);
+          }}
+          onResetFilter={function (): void {
+            handleResetFilter();
+          }}
+        />
         {/* {todos.filter(e=>{return e.id.includes("2")}).map(e=><div>{e.id}</div>)} */}
         {todos.map((todo) => {
-          // if(todo.id.includes("1")){
-          //   return
-          // }
+          if (filter !== null && !todo.name.includes(filter)) {
+            return;
+          }
           return (
             <TodoCard
               key={todo.id}
