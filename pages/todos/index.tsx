@@ -7,6 +7,8 @@ import CreateNewTodo from "./createnewtodo";
 import CreateTodoForm from "../../components/CreateTodoForm";
 import DeleteTaskForm from "../../components/DeleteTodoForm";
 import FilterTaskForm from "../../components/FilterTodoForm";
+import UpdateTodoForm from "../../components/UpdateTodoForm";
+import { UpdateTodoDto } from "../../components/UpdateTodoForm/type";
 
 let _todos: TodoTask[] = [
   {
@@ -85,6 +87,29 @@ function TodoMain() {
     setFilter(null);
   };
 
+  const handleUpdateByTaskName = (updateTask: UpdateTodoDto) =>{
+    let existingtodos: TodoTask[] = [...todos];
+   const foundName = existingtodos.findIndex((e) => {
+      return e.name === updateTask.name;
+
+    });
+
+    let foundTask = existingtodos[foundName];
+    foundTask = {
+      id: foundTask.id,
+      name: updateTask.newName,
+      dueDate: foundTask.dueDate,
+      status: foundTask.status,
+      createDate: foundTask.createDate,
+      updateDate: updateTask.updateDate
+    };
+    console.log(existingtodos[foundName])
+    existingtodos.splice(foundName, 1);
+    existingtodos.unshift(foundTask)
+    setTodos(existingtodos);
+    console.log(foundTask)
+  }
+
   return (
     <PageContainer title="Active TodoList" style={{ rowGap: "10px" }}>
       <div
@@ -136,6 +161,15 @@ function TodoMain() {
             handleCreateTask(task);
           }}
         />
+              <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "centre",
+          columnGap: "10px",
+          width: "100%",
+        }}
+      >
         <DeleteTaskForm
           onDeleteTodoTaskName={async function (task: string): Promise<void> {
             handleDeleteByTaskName(task);
@@ -152,6 +186,12 @@ function TodoMain() {
             handleResetFilter();
           }}
         />
+        </div>
+        <UpdateTodoForm onUpdateTodobyTaskName={async function (task:UpdateTodoDto): Promise<void> {
+          console.log(task)
+          handleUpdateByTaskName(task)
+
+        } }/>
         {/* {todos.filter(e=>{return e.id.includes("2")}).map(e=><div>{e.id}</div>)} */}
         {todos.map((todo) => {
           if (filter !== null && !todo.name.includes(filter)) {

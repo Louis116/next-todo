@@ -14,7 +14,7 @@ const FilterTaskForm = (props: FilterTodoFormProps) => {
   const { handleSubmit, control, reset, resetField } = useForm<FilterTodoDto>({
     defaultValues: { ...defaultInput },
   });
-  let timeNow = new Date()
+
   const onSubmit = (formValues: FilterTodoDto) => {
     console.log("formValues", formValues)
     onFilterTodoTaskName(formValues.name)
@@ -48,7 +48,6 @@ const FilterTaskForm = (props: FilterTodoFormProps) => {
       <Button variant="contained" onClick={()=>{
         onResetFilter()
         resetField("name")
-
       }} >
           Reset Filter
       </Button>

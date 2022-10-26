@@ -68,7 +68,7 @@ const CreateTodoForm = (props: CreateTodoFormProps) => {
         />
         {/* <input type="submit" /> */}
         <Button variant="contained" type="submit">
-          Create asd Task
+          Create Task
         </Button>
       </div>
     </form>
