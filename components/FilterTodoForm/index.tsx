@@ -5,7 +5,7 @@ import { TodoTask } from "../TodoCard/type";
 import { FilterTodoDto, FilterTodoFormProps } from "./types";
 
 const FilterTaskForm = (props: FilterTodoFormProps) => {
-  const {onFilterTodoTaskName, onResetFilter} = props;
+  const { onFilterTodoTaskName, onResetFilter } = props;
 
   const defaultInput: FilterTodoDto = {
     name: "",
@@ -16,10 +16,9 @@ const FilterTaskForm = (props: FilterTodoFormProps) => {
   });
 
   const onSubmit = (formValues: FilterTodoDto) => {
-    console.log("formValues", formValues)
-    onFilterTodoTaskName(formValues.name)
+    console.log("formValues", formValues);
+    onFilterTodoTaskName(formValues.name);
   };
-
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -34,23 +33,26 @@ const FilterTaskForm = (props: FilterTodoFormProps) => {
           columnGap: "16px",
         }}
       >
-      <Controller
-        name="name"
-        control={control}
-        rules={{ required: true, minLength: 1 }}
-        render={({ field, fieldState }) => (
-          <TextField label="Task to Filter" variant="outlined" {...field} />
-        )}
-      />
-      <Button variant="contained" type="submit">
-        Filter
-      </Button>
-      <Button variant="contained" onClick={()=>{
-        onResetFilter()
-        resetField("name")
-      }} >
+        <Controller
+          name="name"
+          control={control}
+          rules={{ required: true, minLength: 1 }}
+          render={({ field, fieldState }) => (
+            <TextField label="Task to Filter" variant="outlined" {...field} />
+          )}
+        />
+        <Button variant="contained" type="submit">
+          Filter
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            onResetFilter();
+            resetField("name");
+          }}
+        >
           Reset Filter
-      </Button>
+        </Button>
       </div>
     </form>
   );

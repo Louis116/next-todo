@@ -8,9 +8,9 @@ const UpdateTodoForm = (props: UpdateTodoProps) => {
   const { onUpdateTodobyTaskName } = props;
 
   const defaultInput: UpdateTodoDto = {
-      name: "",
-      newName: "",
-      updateDate: new Date()
+    name: "",
+    newName: "",
+    updateDate: new Date(),
   };
 
   const { handleSubmit, control, reset, resetField } = useForm<UpdateTodoDto>({
@@ -19,12 +19,12 @@ const UpdateTodoForm = (props: UpdateTodoProps) => {
 
   const onSubmit = (formValues: UpdateTodoDto) => {
     console.log("formValues", formValues);
-    
-    let updateTask:UpdateTodoDto={
-        name: formValues.name,
-        updateDate: new Date(formValues.updateDate.toISOString()),
-        newName: formValues.newName
-    }
+
+    let updateTask: UpdateTodoDto = {
+      name: formValues.name,
+      updateDate: new Date(formValues.updateDate.toISOString()),
+      newName: formValues.newName,
+    };
     onUpdateTodobyTaskName(updateTask);
   };
 
@@ -46,8 +46,6 @@ const UpdateTodoForm = (props: UpdateTodoProps) => {
           render={({ field, fieldState }) => (
             <TextField label="Task to Update" variant="outlined" {...field} />
           )}
-          
-          
         />
         <Controller
           name="newName"
@@ -57,14 +55,13 @@ const UpdateTodoForm = (props: UpdateTodoProps) => {
             <TextField label="Update Detail" variant="outlined" {...field} />
           )}
         />
+        <Button
+          variant="contained"
+          type="submit"
+        >
+          Update
+        </Button>
       </div>
-
-      <Button variant="contained" type="submit" onClick={()=>{
-        resetField("name")
-        resetField("newName")
-      }}>
-        Update
-      </Button>
     </form>
   );
 };

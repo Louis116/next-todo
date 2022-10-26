@@ -91,9 +91,8 @@ function TodoMain() {
     let existingtodos: TodoTask[] = [...todos];
    const foundName = existingtodos.findIndex((e) => {
       return e.name === updateTask.name;
-
     });
-
+    try{
     let foundTask = existingtodos[foundName];
     foundTask = {
       id: foundTask.id,
@@ -103,12 +102,14 @@ function TodoMain() {
       createDate: foundTask.createDate,
       updateDate: updateTask.updateDate
     };
+
     console.log(existingtodos[foundName])
     existingtodos.splice(foundName, 1);
     existingtodos.unshift(foundTask)
     setTodos(existingtodos);
     console.log(foundTask)
   }
+   catch(e) {console.log("Task Name not found")}}
 
   return (
     <PageContainer title="Active TodoList" style={{ rowGap: "10px" }}>

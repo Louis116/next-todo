@@ -40,7 +40,7 @@ const DeleteTaskForm = (props: DeleteTodoFormProps) => {
             <TextField label="Task to Delete" variant="outlined" {...field} />
           )}
         />
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" >
           Delete
         </Button>
       </div>
