@@ -26,6 +26,7 @@ const UpdateTodoForm = (props: UpdateTodoProps) => {
       newName: formValues.newName,
     };
     onUpdateTodobyTaskName(updateTask);
+    reset()
   };
 
   return (

@@ -9,6 +9,7 @@ import DeleteTaskForm from "../../components/DeleteTodoForm";
 import FilterTaskForm from "../../components/FilterTodoForm";
 import UpdateTodoForm from "../../components/UpdateTodoForm";
 import { UpdateTodoDto } from "../../components/UpdateTodoForm/type";
+import { margin } from "@mui/system";
 
 let _todos: TodoTask[] = [
   {
@@ -87,29 +88,31 @@ function TodoMain() {
     setFilter(null);
   };
 
-  const handleUpdateByTaskName = (updateTask: UpdateTodoDto) =>{
+  const handleUpdateByTaskName = (updateTask: UpdateTodoDto) => {
     let existingtodos: TodoTask[] = [...todos];
-   const foundName = existingtodos.findIndex((e) => {
+    const foundName = existingtodos.findIndex((e) => {
       return e.name === updateTask.name;
     });
-    try{
-    let foundTask = existingtodos[foundName];
-    foundTask = {
-      id: foundTask.id,
-      name: updateTask.newName,
-      dueDate: foundTask.dueDate,
-      status: foundTask.status,
-      createDate: foundTask.createDate,
-      updateDate: updateTask.updateDate
-    };
+    try {
+      let foundTask = existingtodos[foundName];
+      foundTask = {
+        id: foundTask.id,
+        name: updateTask.newName,
+        dueDate: foundTask.dueDate,
+        status: foundTask.status,
+        createDate: foundTask.createDate,
+        updateDate: updateTask.updateDate,
+      };
 
-    console.log(existingtodos[foundName])
-    existingtodos.splice(foundName, 1);
-    existingtodos.unshift(foundTask)
-    setTodos(existingtodos);
-    console.log(foundTask)
-  }
-   catch(e) {console.log("Task Name not found")}}
+      console.log(existingtodos[foundName]);
+      existingtodos.splice(foundName, 1);
+      existingtodos.unshift(foundTask);
+      setTodos(existingtodos);
+      console.log(foundTask);
+    } catch (e) {
+      console.log("Task Name not found");
+    }
+  };
 
   return (
     <PageContainer title="Active TodoList" style={{ rowGap: "10px" }}>
@@ -151,7 +154,6 @@ function TodoMain() {
         style={{
           display: "flex",
           flexDirection: "column",
-          rowGap: "16px",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -162,43 +164,49 @@ function TodoMain() {
             handleCreateTask(task);
           }}
         />
-              <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "centre",
-          columnGap: "10px",
-          width: "100%",
-        }}
-      >
-        <DeleteTaskForm
-          onDeleteTodoTaskName={async function (task: string): Promise<void> {
-            handleDeleteByTaskName(task);
-            console.log(task);
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "centre",
+            columnGap: "10px",
+            width: "100%",
           }}
-        />
-        <FilterTaskForm
-          onFilterTodoTaskName={async function (
-            taskName: string
-          ): Promise<void> {
-            handleFilterByTaskName(taskName);
-          }}
-          onResetFilter={function (): void {
-            handleResetFilter();
-          }}
-        />
+        >
+          <DeleteTaskForm
+            onDeleteTodoTaskName={async function (task: string): Promise<void> {
+              handleDeleteByTaskName(task);
+              console.log(task);
+            }}
+          />
+          <FilterTaskForm
+            onFilterTodoTaskName={async function (
+              taskName: string
+            ): Promise<void> {
+              handleFilterByTaskName(taskName);
+            }}
+            onResetFilter={function (): void {
+              handleResetFilter();
+            }}
+          />
         </div>
-        <UpdateTodoForm onUpdateTodobyTaskName={async function (task:UpdateTodoDto): Promise<void> {
-          console.log(task)
-          handleUpdateByTaskName(task)
-
-        } }/>
+        <UpdateTodoForm
+          onUpdateTodobyTaskName={async function (
+            task: UpdateTodoDto
+          ): Promise<void> {
+            console.log(task);
+            handleUpdateByTaskName(task);
+          }}
+        />
         {/* {todos.filter(e=>{return e.id.includes("2")}).map(e=><div>{e.id}</div>)} */}
         {todos.map((todo) => {
           if (filter !== null && !todo.name.includes(filter)) {
             return;
           }
           return (
+            <div style={{
+              padding: "16px",
+            }}>
             <TodoCard
               key={todo.id}
               todoTask={todo}
@@ -213,6 +221,7 @@ function TodoMain() {
                 handleDeleteTask(task);
               }}
             />
+            </div>
           );
         })}
       </div>
